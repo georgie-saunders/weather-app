@@ -1,0 +1,44 @@
+h1 {
+  padding-bottom: 20px;
+}
+h2 {
+  text-align: left;
+}
+
+a {
+  font-size: small;
+}
+.weather-app {
+  background-color: rgb(156, 197, 233);
+  margin: 0 auto;
+  margin-top: 10px;
+  border-radius: 10px;
+  padding: 20px;
+  font-family: "Raleway", sans-serif;
+  max-width: 500px;
+  display: block;
+  position: relative;
+}
+.today-temp {
+  font-size: xx-large;
+}
+
+.extra-info {
+  font-size: x-small;
+  line-height: 0%;
+  margin-top: 30px;
+}
+
+.today-weather {
+  margin-top: 20px;
+}
+.future-dates {
+  font-size: 10px;
+  margin-top: 40px;
+  margin-right: 30px;
+  margin-left: -20px;
+  line-height: 10px;
+}
+.today-info {
+  line-height: 0;
+}
