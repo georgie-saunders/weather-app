@@ -8,6 +8,13 @@ h2 {
 a {
   font-size: small;
 }
+.wrapper {
+  margin: 0 auto;
+  font-family: "Raleway", sans-serif;
+  max-width: 500px;
+  display: block;
+  position: relative;
+}
 
 .weather-app {
   background-color: rgb(156, 197, 233);
@@ -22,6 +29,15 @@ a {
 }
 .today-temp {
   font-size: xx-large;
+}
+
+.unit {
+  color: #212121;
+  font-size: 28px;
+  font-weight: 400;
+  position: relative;
+  line-height: 1;
+  top: -34px;
 }
 
 .extra-info {

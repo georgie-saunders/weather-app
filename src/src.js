@@ -41,6 +41,12 @@ function showWeather(response) {
   let humidity = document.querySelector("#humidity");
   let humidityValue = Math.round(response.data.main.humidity);
   humidity.innerHTML = `${humidityValue}`;
+
+  let iconElement = document.querySelector("#icon");
+  iconElement.setAttribute(
+    "src",
+    `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`
+  );
 }
 
 // show current location temp and details
