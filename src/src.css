@@ -8,6 +8,7 @@ h2 {
 a {
   font-size: small;
 }
+
 .weather-app {
   background-color: rgb(156, 197, 233);
   margin: 0 auto;
@@ -41,4 +42,5 @@ a {
 }
 .today-info {
   line-height: 0;
+  text-transform: capitalize;
 }
