@@ -19,8 +19,9 @@ currentday.innerHTML = `${day}, ${hours}:${minutes}`;
 
 function showWeather(response) {
   let temp = document.querySelector("#temperature");
-  let temperature = Math.round(response.data.main.temp);
-  temp.innerHTML = `${temperature}°C`;
+  cTemp = response.data.main.temp;
+  let temperature = Math.round(cTemp);
+  temp.innerHTML = `${temperature}`;
 
   let city = document.querySelector("#city");
   let cityname = response.data.name;
@@ -76,3 +77,26 @@ function showSearchLocation(event) {
 
 let searchLocation = document.querySelector("#citySearch");
 searchLocation.addEventListener("click", showSearchLocation);
+
+// change unit to F
+function showFtemp(event) {
+  event.preventDefault();
+  let tempElement = document.querySelector("#temperature");
+  let fTemp = (cTemp * 9) / 5 + 32;
+  tempElement.innerHTML = Math.round(fTemp);
+}
+
+let fLink = document.querySelector("#f-link");
+fLink.addEventListener("click", showFtemp);
+
+// change unit to C
+function showCtemp(event) {
+  event.preventDefault();
+  let tempElement = document.querySelector("#temperature");
+  tempElement.innerHTML = Math.round(cTemp);
+}
+
+let cLink = document.querySelector("#c-link");
+cLink.addEventListener("click", showCtemp);
+
+let cTemp = null;

@@ -60,20 +60,25 @@
                   <p id="current-day"></p>
                   <p id="weatherDescription"></p>
                 </div>
-                <span class="today-temp"
-                  ><p>
-                    <img src="" alt="weather icon" id="icon" />
-                    <span id="temperature"></span>
-                  </p>
-                </span>
-
+                <div class="weather-temperature">
+                  <img src="" alt="weather icon" id="icon" />
+                  <span id="temperature"></span>
+                  <span class="unit"
+                    ><a href="#" id="c-link">°C</a> |
+                    <a href="#" id="f-link">°F</a></span
+                  >
+                </div>
                 <div class="extra-info">
                   <p>Feels like: <span id="feelsLike"></span>°C</p>
                   <p>Humidity: <span id="humidity"> </span>%</p>
                   <p>Wind speed: <span id="wind"></span>km/h</p>
                 </div>
               </div>
+              <div class="message">
+                <p>Have a lovely day!</p>
+              </div>
             </div>
+
             <div class="col-3">
               <div class="future-dates">
                 <strong><p>Thurs 🌧</p></strong>
