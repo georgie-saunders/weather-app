@@ -2,7 +2,13 @@
 let now = new Date();
 let currentday = document.querySelector("#current-day");
 let hours = now.getHours();
+if (hours < 10) {
+  hours = `0${hours}`;
+}
 let minutes = now.getMinutes();
+if (minutes < 10) {
+  minutes = `0${minutes}`;
+}
 let days = [
   "Sunday",
   "Monday",
@@ -15,8 +21,20 @@ let days = [
 let day = days[now.getDay()];
 currentday.innerHTML = `${day}, ${hours}:${minutes}`;
 
-// city, temp and details
+// message for time of day
+let message = document.querySelector("#message");
 
+if (hours < 12) {
+  message.innerHTML = `Have a good morning! 😀`;
+} else {
+  if (hours > 18) {
+    message.innerHTML = `Have a good evening! 😀`;
+  } else {
+    message.innerHTML = `Have a good afternoon! 😀`;
+  }
+}
+
+// city, temp and details
 function showWeather(response) {
   let temp = document.querySelector("#temperature");
   cTemp = response.data.main.temp;
@@ -32,7 +50,8 @@ function showWeather(response) {
   description.innerHTML = `${descript}`;
 
   let feelTemp = document.querySelector("#feelsLike");
-  let feelTemperature = Math.round(response.data.main.feels_like);
+  feelsTemp = response.data.main.feels_like;
+  let feelTemperature = Math.round(feelsTemp);
   feelTemp.innerHTML = `${feelTemperature}`;
 
   let windSpeed = document.querySelector("#wind");
@@ -51,7 +70,6 @@ function showWeather(response) {
 }
 
 // show current location temp and details
-
 function retrievePosition(position) {
   let apiKey = "3dd2c190c7f10449ee93c37b4f22cf04";
   let lat = position.coords.latitude;
@@ -66,7 +84,6 @@ yourLocation.addEventListener("click", showWeather);
 navigator.geolocation.getCurrentPosition(retrievePosition);
 
 // show city and weather results
-
 function showSearchLocation(event) {
   event.preventDefault();
   let apiKey = "3dd2c190c7f10449ee93c37b4f22cf04";
@@ -96,7 +113,16 @@ function showCtemp(event) {
   tempElement.innerHTML = Math.round(cTemp);
 }
 
+// feels like unit to C
+function showCtempFeels(event) {
+  event.preventDefault();
+  let tempElement = document.querySelector("#feelsLike");
+  tempElement.innerHTML = `${Math.round(feelsTemp)} C`;
+}
+
 let cLink = document.querySelector("#c-link");
-cLink.addEventListener("click", showCtemp);
+cLink.addEventListener("click", showCtemp, showCtempFeels);
 
 let cTemp = null;
+
+let feelsTemp = null;
