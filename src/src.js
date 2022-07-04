@@ -126,3 +126,20 @@ cLink.addEventListener("click", showCtemp, showCtempFeels);
 let cTemp = null;
 
 let feelsTemp = null;
+
+// forecast
+
+let dayName = document.querySelector("#forecastDay");
+dayName.innerHTML = "Thursday";
+
+function showSomething(response) {
+  console.log(response);
+}
+
+function showForcast(event) {
+  event.preventDefault();
+  let url = `https://api.openweathermap.org/data/2.5/onecall?lat=33.44&lon=-94.04&exclude=hourly,daily&appid=3dd2c190c7f10449ee93c37b4f22cf04`;
+  axios.get(url).then(showSomething);
+}
+
+//
