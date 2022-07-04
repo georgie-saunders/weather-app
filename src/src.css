@@ -1,17 +1,31 @@
+body {
+  font-family: "Raleway", sans-serif;
+}
+
 h1 {
   padding-bottom: 20px;
 }
-h2 {
-  text-align: left;
+
+ul {
+  margin: 0;
+  padding: 0;
 }
 
-a {
-  font-size: small;
+li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+
+  line-height: 19px;
 }
 
-.wrapper {
+li:first-letter {
+  text-transform: capitalize;
+}
+
+.weather-app-wrapper {
   margin: 0 auto;
-  font-family: "Raleway", sans-serif;
   max-width: 500px;
   display: block;
   position: relative;
@@ -23,42 +37,56 @@ a {
   margin-top: 10px;
   border-radius: 10px;
   padding: 20px;
-  font-family: "Raleway", sans-serif;
   max-width: 500px;
   display: block;
   position: relative;
 }
-.today-weather {
-  margin-top: 20px;
+
+.overview {
+  margin-bottom: 20px;
 }
-.today-info {
-  line-height: 0;
-  text-transform: capitalize;
-}
+
 .weather-temperature img {
   margin-right: 5px;
   height: 64px;
   width: 64px;
 }
 
-.weather-temperature {
+.weather-temperature strong {
   font-size: xx-large;
+  line-height: 1;
+  font-weight: 400;
 }
-.weather-temperature .unit {
+
+.weather-temperature .units {
   position: relative;
   font-size: 16px;
   top: -12px;
 }
-.extra-info {
-  font-size: x-small;
-  line-height: 0%;
-  margin-top: 30px;
+
+.weather-temperature .active {
+  color: rgb(33, 33, 33);
+  cursor: default;
 }
 
-.message {
-  padding: 20px;
+.weather-temperature .active:hover {
+  text-decoration: none;
 }
-.forecast {
+
+.weather-forecast {
+  margin-top: 20px;
+  text-align: center;
+  color: #000;
+}
+
+.weather-forecast-date {
   font-size: 10px;
-  line-height: 10px;
+}
+
+.weather-forecast-temperature-min {
+  opacity: 0.5;
+}
+
+.weather-forecast-temperatures {
+  font-size: 10px;
 }

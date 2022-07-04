@@ -1,145 +1,124 @@
-// time and day
-let now = new Date();
-let currentday = document.querySelector("#current-day");
-let hours = now.getHours();
-if (hours < 10) {
-  hours = `0${hours}`;
-}
-let minutes = now.getMinutes();
-if (minutes < 10) {
-  minutes = `0${minutes}`;
-}
-let days = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-];
-let day = days[now.getDay()];
-currentday.innerHTML = `${day}, ${hours}:${minutes}`;
-
-// message for time of day
-let message = document.querySelector("#message");
-
-if (hours < 12) {
-  message.innerHTML = `Have a good morning! 😀`;
-} else {
-  if (hours > 18) {
-    message.innerHTML = `Have a good evening! 😀`;
-  } else {
-    message.innerHTML = `Have a good afternoon! 😀`;
+function formatDate(timestamp) {
+  let date = new Date(timestamp);
+  let hours = date.getHours();
+  if (hours < 10) {
+    hours = `0${hours}`;
   }
+  let minutes = date.getMinutes();
+  if (minutes < 10) {
+    minutes = `0${minutes}`;
+  }
+
+  let days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  let day = days[date.getDay()];
+  return `${day} ${hours}:${minutes}`;
 }
 
-// city, temp and details
-function showWeather(response) {
-  let temp = document.querySelector("#temperature");
-  cTemp = response.data.main.temp;
-  let temperature = Math.round(cTemp);
-  temp.innerHTML = `${temperature}`;
+function displayForecast() {
+  let forecastElement = document.querySelector("#forecast");
 
-  let city = document.querySelector("#city");
-  let cityname = response.data.name;
-  city.innerHTML = `${cityname}`;
+  let days = ["Tues", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
-  let description = document.querySelector("#weatherDescription");
-  let descript = response.data.weather[0].description;
-  description.innerHTML = `${descript}`;
+  let forecastHTML = `<div class="row">`;
+  days.forEach(function (day) {
+    forecastHTML =
+      forecastHTML +
+      `
+      <div class="col-2">
+        <div class="weather-forecast-date">${day}</div>
+        <img
+          src="http://openweathermap.org/img/wn/50d@2x.png"
+          alt=""
+          width="42"
+        />
+        <div class="weather-forecast-temperatures">
+          <span class="weather-forecast-temperature-max"> 18° </span>
+          <span class="weather-forecast-temperature-min"> 12° </span>
+        </div>
+      </div>
+  `;
+  });
 
-  let feelTemp = document.querySelector("#feelsLike");
-  feelsTemp = response.data.main.feels_like;
-  let feelTemperature = Math.round(feelsTemp);
-  feelTemp.innerHTML = `${feelTemperature}`;
+  forecastHTML = forecastHTML + `</div>`;
+  forecastElement.innerHTML = forecastHTML;
+  console.log(forecastHTML);
+}
 
-  let windSpeed = document.querySelector("#wind");
-  let windValue = Math.round(response.data.wind.speed);
-  windSpeed.innerHTML = `${windValue}`;
-
-  let humidity = document.querySelector("#humidity");
-  let humidityValue = Math.round(response.data.main.humidity);
-  humidity.innerHTML = `${humidityValue}`;
-
+function displayTemperature(response) {
+  let temperatureElement = document.querySelector("#temperature");
+  let cityElement = document.querySelector("#city");
+  let descriptionElement = document.querySelector("#description");
+  let humidityElement = document.querySelector("#humidity");
+  let windElement = document.querySelector("#wind");
+  let dateElement = document.querySelector("#date");
   let iconElement = document.querySelector("#icon");
+  let feelElement = document.querySelector("#feelsLike");
+
+  celsiusTemperature = response.data.main.temp;
+
+  feelElement.innerHTML = Math.round(response.data.main.feels_like);
+  temperatureElement.innerHTML = Math.round(celsiusTemperature);
+  cityElement.innerHTML = response.data.name;
+  descriptionElement.innerHTML = response.data.weather[0].description;
+  humidityElement.innerHTML = response.data.main.humidity;
+  windElement.innerHTML = Math.round(response.data.wind.speed);
+  dateElement.innerHTML = formatDate(response.data.dt * 1000);
   iconElement.setAttribute(
     "src",
     `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`
   );
+  iconElement.setAttribute("alt", response.data.weather[0].description);
 }
 
-// show current location temp and details
-function retrievePosition(position) {
-  let apiKey = "3dd2c190c7f10449ee93c37b4f22cf04";
-  let lat = position.coords.latitude;
-  let lon = position.coords.longitude;
-  let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
-  axios.get(url).then(showWeather);
+function search(city) {
+  let apiKey = "5f472b7acba333cd8a035ea85a0d4d4c";
+  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+  axios.get(apiUrl).then(displayTemperature);
 }
 
-let yourLocation = document.querySelector("#currentLocation");
-yourLocation.addEventListener("click", showWeather);
-
-navigator.geolocation.getCurrentPosition(retrievePosition);
-
-// show city and weather results
-function showSearchLocation(event) {
+function handleSubmit(event) {
   event.preventDefault();
-  let apiKey = "3dd2c190c7f10449ee93c37b4f22cf04";
-  let cityName = document.querySelector("#cityInput");
-  let url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName.value}&units=metric&appid=${apiKey}`;
-  axios.get(url).then(showWeather);
+  let cityInputElement = document.querySelector("#city-input");
+  search(cityInputElement.value);
 }
 
-let searchLocation = document.querySelector("#citySearch");
-searchLocation.addEventListener("click", showSearchLocation);
-
-// change unit to F
-function showFtemp(event) {
+function displayFahrenheitTemperature(event) {
   event.preventDefault();
-  let tempElement = document.querySelector("#temperature");
-  let fTemp = (cTemp * 9) / 5 + 32;
-  tempElement.innerHTML = Math.round(fTemp);
+  let temperatureElement = document.querySelector("#temperature");
+
+  celsiusLink.classList.remove("active");
+  fahrenheitLink.classList.add("active");
+  let fahrenheiTemperature = (celsiusTemperature * 9) / 5 + 32;
+  temperatureElement.innerHTML = Math.round(fahrenheiTemperature);
 }
 
-let fLink = document.querySelector("#f-link");
-fLink.addEventListener("click", showFtemp);
-
-// change unit to C
-function showCtemp(event) {
+function displayCelsiusTemperature(event) {
   event.preventDefault();
-  let tempElement = document.querySelector("#temperature");
-  tempElement.innerHTML = Math.round(cTemp);
+  celsiusLink.classList.add("active");
+  fahrenheitLink.classList.remove("active");
+  let temperatureElement = document.querySelector("#temperature");
+  temperatureElement.innerHTML = Math.round(celsiusTemperature);
 }
 
-// feels like unit to C
-function showCtempFeels(event) {
-  event.preventDefault();
-  let tempElement = document.querySelector("#feelsLike");
-  tempElement.innerHTML = `${Math.round(feelsTemp)} C`;
-}
+let celsiusTemperature = null;
 
-let cLink = document.querySelector("#c-link");
-cLink.addEventListener("click", showCtemp, showCtempFeels);
+let form = document.querySelector("#search-form");
+form.addEventListener("submit", handleSubmit);
 
-let cTemp = null;
+let fahrenheitLink = document.querySelector("#fahrenheit-link");
+fahrenheitLink.addEventListener("click", displayFahrenheitTemperature);
 
-let feelsTemp = null;
+let celsiusLink = document.querySelector("#celsius-link");
+celsiusLink.addEventListener("click", displayCelsiusTemperature);
 
-// forecast
-
-let dayName = document.querySelector("#forecastDay");
-dayName.innerHTML = "Thursday";
-
-function showSomething(response) {
-  console.log(response);
-}
-
-function showForcast(event) {
-  event.preventDefault();
-  let url = `https://api.openweathermap.org/data/2.5/onecall?lat=33.44&lon=-94.04&exclude=hourly,daily&appid=3dd2c190c7f10449ee93c37b4f22cf04`;
-  axios.get(url).then(showSomething);
-}
-
-//
+search("Canberra");
+displayForecast();
+displayMessage();
